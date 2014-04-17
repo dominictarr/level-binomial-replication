@@ -1,6 +1,9 @@
 var update = require('level-update-stream')
+var replicate = require('binomial-hash-list')
+var pull = require('pull-stream')
 
 module.exports = function (db, index, opts) {
+  if(!opts) opts = index, index = null
   index = index || db.sublevel('search')
   opts = opts || {}
 
@@ -12,8 +15,13 @@ module.exports = function (db, index, opts) {
   return function (cb) {
     return replicate({
       read: function (opts) {
+        opts = opts || {}
+        var range = {
+          min: opts.gte ? new Date(opts.gte) : new Date(0),
+          max: opts.lt  ? new Date(opts.lt)  : new Date('9999-12-31')
+        }
         return pull(
-          index.search([ts {min: new Date(opts.gte), max: new Date(opts.lt)}]),
+          index.search([ts, range]),
           pull.through(function (e) {
             delete e.index
           })
@@ -23,10 +31,11 @@ module.exports = function (db, index, opts) {
         return update(db, cb)
       },
       ts: function (o) {
-        return o[ts]
+        return new Date(o.value[ts])
       },
-      size: opts.size || 24*60*60*1000
-    })
+      size: opts.size || 24*60*60*1000,
+      server: opts.server
+    }, cb)
   }
 }
 

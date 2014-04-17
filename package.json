@@ -1,0 +1,28 @@
+{
+  "name": "level-binomial-replication",
+  "description": "",
+  "version": "0.0.0",
+  "homepage": "https://github.com/dominictarr/level-binomial-replication",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dominictarr/level-binomial-replication.git"
+  },
+  "dependencies": {
+    "deep-equal": "~0.2.1",
+    "pull-stream": "~2.22.0",
+    "level-update-stream": "~1.0.0",
+    "binomial-hash-list": "~4.0.0",
+    "pull-level": "~1.1.10"
+  },
+  "devDependencies": {
+    "tape": "~2.12.3",
+    "level-search": "~1.7.3",
+    "level-sublevel": "~5.2.0",
+    "level-test": "~1.6.2"
+  },
+  "scripts": {
+    "test": "set -e; for t in test/*.js; do node $t; done"
+  },
+  "author": "'Dominic Tarr' <dominic.tarr@gmail.com> (http://dominictarr.com)",
+  "license": "MIT"
+}
