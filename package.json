@@ -1,6 +1,6 @@
 {
   "name": "level-binomial-replication",
-  "description": "",
+  "description": "biniomial replication for levelup",
   "version": "0.0.0",
   "homepage": "https://github.com/dominictarr/level-binomial-replication",
   "repository": {
