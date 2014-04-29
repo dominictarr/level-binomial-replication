@@ -12,7 +12,9 @@
     "pull-stream": "~2.22.0",
     "level-update-stream": "~1.0.0",
     "binomial-hash-list": "~4.0.0",
-    "pull-level": "~1.1.10"
+    "pull-level": "~1.1.10",
+    "stream-serializer": "~1.1.2",
+    "pull-stream-to-stream": "~1.2.6"
   },
   "devDependencies": {
     "tape": "~2.12.3",
