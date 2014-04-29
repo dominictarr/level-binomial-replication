@@ -18,10 +18,8 @@ module.exports = function (db, index, opts) {
 
   var ts = opts.ts || 'ts'
 
-  return function (_opts, cb) {
-    if(!cb) cb = _opts, _opts = {}
-    _opts = merge(merge({}, opts), _opts)
-    return replicate({
+  function getOpts (_opts) {
+    return {
       read: function (opts) {
         opts = opts || {}
         var range = {
@@ -43,7 +41,20 @@ module.exports = function (db, index, opts) {
       },
       size: opts.size || 24*60*60*1000,
       server: _opts.server
-    }, cb)
+    }
   }
+
+  function createStream (_opts, cb) {
+    if(!cb) cb = _opts, _opts = {}
+    _opts = merge(merge({}, opts), _opts)
+    return replicate(getOpts(_opts), cb)
+  }
+
+  createStream.binomial = function (_opts, cb) {
+    if(!cb) cb = _opts, _opts = {}
+    replicate.binomial(getOpts(_opts), cb)
+  }
+
+  return createStream
 }
 
