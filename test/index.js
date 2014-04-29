@@ -69,6 +69,19 @@ var createReplicateTests = module.exports = function (replicate, connect) {
     )
   })
 
+  tape('binomial', function (t) {
+    console.log('replicate?', replicate)
+    replicate(db1).binomial(function (err, tree) {
+      if(err) throw err
+      console.log(tree)
+      t.ok(tree)
+      t.ok(Array.isArray(tree.tree))
+      t.ok(tree.tree.length > 0)
+
+      t.end()
+    })
+  })
+
   function missing (a, b) {
     var o = {}, m = []
     a.forEach(function (e) {
