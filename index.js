@@ -2,6 +2,12 @@ var update = require('level-update-stream')
 var replicate = require('binomial-hash-list')
 var pull = require('pull-stream')
 
+function merge(a, b) {
+  for(var k in b)
+    a[k] = b[k]
+  return a
+}
+
 module.exports = function (db, index, opts) {
   if(!opts) opts = index, index = null
   index = index || db.sublevel('search')
@@ -12,7 +18,9 @@ module.exports = function (db, index, opts) {
 
   var ts = opts.ts || 'ts'
 
-  return function (cb) {
+  return function (_opts, cb) {
+    if(!cb) cb = _opts, _opts = {}
+    _opts = merge(merge({}, opts), _opts)
     return replicate({
       read: function (opts) {
         opts = opts || {}
@@ -34,7 +42,7 @@ module.exports = function (db, index, opts) {
         return new Date(o.value[ts])
       },
       size: opts.size || 24*60*60*1000,
-      server: opts.server
+      server: _opts.server
     }, cb)
   }
 }
