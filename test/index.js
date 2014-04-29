@@ -84,7 +84,7 @@ var createReplicateTests = module.exports = function (replicate, connect) {
 
   function testReplicate(db1, db2, cb) {
     var n = 2
-    var a = replicate(db1, {server: true}) (function (err, written) {
+    var a = replicate(db1) ({server: true}, function (err, written) {
       if(err) throw err
       console.log('A - done', written)
       done()
